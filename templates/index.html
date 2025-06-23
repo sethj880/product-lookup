@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Warehouse Lookup</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1em; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        form.inline { display: inline; }
+    </style>
+</head>
+<body>
+    <h1>Product Lookup</h1>
+    <form method="get">
+        <input type="text" name="search" value="{{ search }}" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Product Code</th>
+            <th>Description</th>
+            <th>Batch Code</th>
+            <th>Location</th>
+            <th>Update</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product['product_code'] }}</td>
+            <td>{{ product['description'] }}</td>
+            <td>{{ product['batch_code'] }}</td>
+            <td>
+                <form action="/update_location" method="POST" class="inline">
+                    <input type="hidden" name="id" value="{{ product['id'] }}">
+                    <input type="text" name="location" value="{{ product['location'] or '' }}">
+            </td>
+            <td>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
